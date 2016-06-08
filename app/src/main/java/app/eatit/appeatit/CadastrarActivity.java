@@ -1,5 +1,6 @@
 package app.eatit.appeatit;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,68 +22,60 @@ import java.util.HashMap;
 
 import app.eatit.appeatit.DAO.CustomObjectRequest;
 
-public class MainActivity extends AppCompatActivity {
+public class CadastrarActivity extends AppCompatActivity {
 
-    private Button btnCadastrar,btnLogar;
-    private EditText email, senha;
+    private Button btnCadastrar;
+    private EditText email,senha;
     private RequestQueue rq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_cadastrar);
 
         btnCadastrar = (Button) findViewById(R.id.btnCadastrar);
-        btnLogar = (Button) findViewById(R.id.btnLogar);
         email = (EditText) findViewById(R.id.campoEmail);
         senha = (EditText) findViewById(R.id.campoSenha);
         rq = Volley.newRequestQueue(this);
-        btnLogar.setOnClickListener(new View.OnClickListener(){
 
+        btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logar();
-            }
-        });
-
-        btnCadastrar.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, CadastrarActivity.class);
-                startActivity(intent);
+                cadastrar();
             }
         });
     }
 
-    public void logar(){
+    public void cadastrar(){
         findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-        HashMap<String,String> params;
-        params = new HashMap<>();
+        HashMap<String,String> params = new HashMap<>();
         params.put("email",email.getText().toString());
         params.put("senha",senha.getText().toString());
         CustomObjectRequest request = new CustomObjectRequest(Request.Method.POST,
-                "http://acesolutions.com.br/Appeatit/logar.php",
+                "http://acesolutions.com.br/Appeatit/cadastrar.php",
                 params,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        findViewById(R.id.progressBar).setVisibility(View.GONE);
                         try {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(CadastrarActivity.this);
+                            builder.setTitle("Atenção");
+                            builder.setMessage(response.getString("message"));
                             if(response.getBoolean("status")){
-                                Intent intent = new Intent();
-                                intent.setClass(MainActivity.this, MenuActivity.class);
-                                findViewById(R.id.progressBar).setVisibility(View.GONE);
-                                startActivity(intent);
-                                finish();
+                                builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent();
+                                        intent.setClass(CadastrarActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
+                                builder.show();
 
                             }else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                                builder.setTitle("Atenção");
-                                builder.setMessage(response.getString("message"));
                                 builder.setNeutralButton("Ok",null);
-                                findViewById(R.id.progressBar).setVisibility(View.GONE);
                                 builder.show();
                             }
                         } catch (JSONException e) {
@@ -97,8 +90,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-        request.setTag("Logar");
+        request.setTag("Cadastrar");
         rq.add(request);
-
     }
 }
+
+

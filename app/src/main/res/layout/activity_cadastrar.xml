@@ -7,15 +7,20 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="app.eatit.appeatit.MainActivity"
-    >
+    tools:context="app.eatit.appeatit.CadastrarActivity">
 
     <LinearLayout
-        android:layout_above="@+id/btnCadastrar"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Novo Cadastro"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -23,7 +28,7 @@
             android:text="Email"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="180dp"
             />
 
         <EditText
@@ -39,6 +44,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,33 +56,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Logar"
-            android:id="@+id/btnLogar"
+            android:text="Cadastrar"
+            android:id="@+id/btnCadastrar"
             />
 
 
-
     </LinearLayout>
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Não possui conta ?"
-        android:textSize="20sp"
-        android:layout_toLeftOf="@+id/btnCadastrar"
-        android:layout_marginRight="5dp"
-        android:gravity="top"
-        />
-    <Button
-        android:id="@+id/btnCadastrar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cadastrar !"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        />
 
     <ProgressBar
         android:layout_width="wrap_content"
@@ -86,5 +71,6 @@
         android:visibility="gone"
         android:id="@+id/progressBar"
         />
+
 
 </RelativeLayout>
