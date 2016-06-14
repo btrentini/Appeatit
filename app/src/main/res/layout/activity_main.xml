@@ -44,6 +44,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:id="@+id/campoSenha"
+            android:inputType="textPassword"
             />
 
         <Button
@@ -59,21 +60,12 @@
     </LinearLayout>
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Não possui conta ?"
-        android:textSize="20sp"
-        android:layout_toLeftOf="@+id/btnCadastrar"
-        android:layout_marginRight="5dp"
-        android:gravity="top"
-        />
+
     <Button
         android:id="@+id/btnCadastrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cadastrar !"
+        android:text="Cadastrar"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         />

@@ -23,13 +23,67 @@
         />
 
     <Button
-
+        android:id="@+id/btn1"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:textSize="20sp"
+        android:text="@string/mealOption1"
+        android:background="@drawable/menu_button"
+        android:textColor="@color/white"
+        />
+    <Button
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="@string/mealOption1"
+        android:textSize="20sp"
+        android:text="@string/mealOption2"
+        android:background="@drawable/menu_button"
+        android:textColor="@color/white"
         />
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:text="@string/mealOption3"
+        android:background="@drawable/menu_button"
+        android:textColor="@color/white"
+        />
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:text="@string/mealOption4"
+        android:background="@drawable/menu_button"
+        android:textColor="@color/white"
+        />
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:text="@string/mealOption5"
+        android:background="@drawable/menu_button"
+        android:textColor="@color/white"
+        />
+    <Button
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:text="@string/mealOption6"
+        android:background="@drawable/menu_button"
+        android:textColor="@color/white"
+        />
+
 
 
 
