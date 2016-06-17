@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context="app.eatit.appeatit.SplashActivity"
     android:background="@color/colorPrimaryDark"
+    android:id="@+id/rl"
     >
 
   <ImageView
@@ -15,19 +16,6 @@
       android:layout_centerVertical="true"
       />
 
-  <ImageView
-      android:layout_width="100dp"
-      android:layout_height="100dp"
-      android:layout_alignParentBottom="true"
-      android:src="@drawable/guest"
-      />
-  <ImageView
-      android:layout_width="100dp"
-      android:layout_height="100dp"
-      android:layout_alignParentBottom="true"
-      android:layout_alignParentRight="true"
-      android:src="@drawable/chef"
-      />
 
 
 

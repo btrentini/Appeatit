@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Appeatit</string>
+    <string name="wanttoeat">I want to eat...</string>
+    <string name="mealOption1">SPECIAL TODAY</string>
+    <string name="mealOption2">PASTA</string>
+    <string name="mealOption3">MEAT</string>
+    <string name="mealOption4">NATURAL</string>
+    <string name="mealOption5">TYPICAL</string>
+    <string name="mealOption6">ROMANTIC</string>
 </resources>
