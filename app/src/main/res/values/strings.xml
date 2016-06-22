@@ -7,4 +7,14 @@
     <string name="mealOption4">NATURAL</string>
     <string name="mealOption5">TYPICAL</string>
     <string name="mealOption6">ROMANTIC</string>
+    <string name="checkAll">Confira todos os Pratos</string>
+    <string name="rating">Rating</string>
+    <string name="register">Cadastrar</string>
+    <string name="login">Logar</string>
+    <string name="reservar">Reservar</string>
+    <string name="onde">Aonde</string>
+    <string name="chef">Chef</string>
+    <string name="place">Place</string>
+    <string name="food">Food</string>
+    <string name="buscar">I want to eat...</string>
 </resources>

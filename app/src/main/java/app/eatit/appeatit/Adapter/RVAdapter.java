@@ -39,7 +39,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.RefeicoesViewHolde
 
     @Override
     public void onBindViewHolder(RefeicoesViewHolder holder, int position) {
-        holder.nomeChefe.setText(chefes.get(position).getEmail());
+        holder.nomeChefe.setText("Chefe :"+chefes.get(position).getNome());
 
     }
 
@@ -64,7 +64,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.RefeicoesViewHolde
         public RefeicoesViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv);
-            nomeChefe = (TextView) itemView.findViewById(R.id.nomeChefe);
+            nomeChefe = (TextView) itemView.findViewById(R.id.chefe);
         }
     }
 

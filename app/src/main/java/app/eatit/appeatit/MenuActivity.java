@@ -31,6 +31,7 @@ public class MenuActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RequestQueue rq;
     private ArrayList<Chefe> chefes;
+    private ArrayList<Refeicao> refeicoes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class MenuActivity extends AppCompatActivity {
 
     public void abreLista() {
         chefes = new ArrayList<>();
+        refeicoes = new ArrayList<>();
         CustomObjectRequest request = new CustomObjectRequest(
                 Request.Method.POST,
                 "http://www.acesolutions.com.br/Appeatit/refeicoes.php",
@@ -79,7 +81,7 @@ public class MenuActivity extends AppCompatActivity {
                                     if(chefe == null){
                                         chefe = new Chefe();
                                         chefe.setId(joChefe.getInt("id"));
-                                        chefe.setEmail(joChefe.getString("nome"));
+                                        chefe.setNome(joChefe.getString("nome"));
                                         chefes.add(chefe);
                                     }
                                     Refeicao refeicao;
@@ -88,10 +90,12 @@ public class MenuActivity extends AppCompatActivity {
                                     refeicao.setDescricao(jo.getString("descricao"));
                                     refeicao.setValor((float)jo.getDouble("valor"));
                                     refeicao.setDiaSemana(jo.getInt("dia_semana"));
+                                    refeicoes.add(refeicao);
                                 }
                                 Intent intent = new Intent();
                                 intent.setClass(MenuActivity.this, ListaActivity.class);
-                                intent.putParcelableArrayListExtra("chefes",chefes);
+                                //intent.putParcelableArrayListExtra("chefes",chefes);
+                                intent.putParcelableArrayListExtra("refeicoes",refeicoes);
                                 startActivity(intent);
                             }else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
