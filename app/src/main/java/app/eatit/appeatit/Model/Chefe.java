@@ -29,6 +29,11 @@ public class Chefe implements Parcelable{
         this.nome = nome;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
     public String getEmail() {
         return email;
     }

@@ -10,7 +10,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:name=".MainActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,9 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CadastrarActivity" />
+        <activity
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:name=".CadastrarActivity" />
         <activity android:name=".MenuActivity" />
-        <activity android:name=".ListaActivity"></activity>
+        <activity android:name=".ListaActivity" />
+        <activity android:name=".DetalhesChefeActivity" />
+        <activity android:name=".DetalhesPratoActivity"></activity>
     </application>
 
 </manifest>

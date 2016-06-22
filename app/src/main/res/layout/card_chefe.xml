@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:padding="16dp"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
     >
+    <!--    android:padding="16dp" -->
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -12,38 +12,80 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:padding="16dp"
             >
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imagem"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="16dp"
-                android:src="@mipmap/ic_launcher"
+                android:id="@+id/img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/prato2"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/nomeChefe"
-                android:layout_toRightOf="@+id/imagem"
-                android:layout_alignParentTop="true"
-                android:textSize="30sp"
-                android:text="aaa"
+                android:text=""
+                android:layout_toRightOf="@+id/img"
+                android:id="@+id/refeicao"
+                android:textSize="19sp"
+                android:textColor="@color/black"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/avaliacoes"
+                android:text=""
+                android:id="@+id/descricao"
+                android:layout_toRightOf="@+id/img"
+                android:layout_below="@+id/refeicao"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_age"
-                android:layout_toRightOf="@+id/imagem"
-                android:layout_below="@+id/nomeChefe"
-                android:text="aaa"
+                android:layout_alignParentRight="true"
+                android:text="$15"
+                android:textColor="@color/red"
+                android:textSize="20sp"
+                android:id="@+id/preco"
                 />
+            <LinearLayout
+                android:id="@+id/avaliacoes"
+                android:layout_below="@+id/preco"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/chefe"
+                    android:src="@drawable/star"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/chefe"
+                    android:src="@drawable/star"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:id="@+id/chefe"
+                android:textColor="@color/blue"
+                />
+
+
+
+
 
         </RelativeLayout>
 

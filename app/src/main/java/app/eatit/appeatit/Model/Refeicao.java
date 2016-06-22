@@ -1,22 +1,20 @@
 package app.eatit.appeatit.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Tuka on 10/06/2016.
  */
-public class Refeicao {
+public class Refeicao implements Parcelable {
 
     private Chefe chefe;
     private int diaSemana;
     private String nome, descricao;
-
-
-
     private float valor;
 
-    public Refeicao(Chefe chefe){
-        chefe.getRefeicoes().add(this);
-        this.chefe = chefe;
-    }
+
+
     public String getNome() {
         return nome;
     }
@@ -55,5 +53,44 @@ public class Refeicao {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Refeicao(Chefe chefe){
+        chefe.getRefeicoes().add(this);
+        this.chefe = chefe;
+    }
+
+    protected Refeicao(Parcel in) {
+        chefe = in.readParcelable(Chefe.class.getClassLoader());
+        diaSemana = in.readInt();
+        nome = in.readString();
+        descricao = in.readString();
+        valor = in.readFloat();
+    }
+
+    public static final Creator<Refeicao> CREATOR = new Creator<Refeicao>() {
+        @Override
+        public Refeicao createFromParcel(Parcel in) {
+            return new Refeicao(in);
+        }
+
+        @Override
+        public Refeicao[] newArray(int size) {
+            return new Refeicao[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(chefe, flags);
+        dest.writeInt(diaSemana);
+        dest.writeString(nome);
+        dest.writeString(descricao);
+        dest.writeFloat(valor);
     }
 }

@@ -14,18 +14,25 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import app.eatit.appeatit.DAO.CustomObjectRequest;
+import app.eatit.appeatit.Model.Chefe;
+import app.eatit.appeatit.Model.Refeicao;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button btnCadastrar,btnLogar;
     private EditText email, senha;
     private RequestQueue rq;
+    private ArrayList<Chefe> chefes;
+    private ArrayList<Refeicao> refeicoes;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logar(){
+        chefes = new ArrayList<>();
+        refeicoes = new ArrayList<>();
         findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
         HashMap<String,String> params;
         params = new HashMap<>();
@@ -71,11 +80,42 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             if(response.getBoolean("status")){
+
+                                JSONArray ja = response.getJSONArray("refeicoes");
+                                for(int i = 0; i < ja.length(); i++){
+                                    JSONObject jo = ja.getJSONObject(i);
+
+                                    //Cria Chefes
+                                    Chefe chefe = null;
+                                    JSONObject joChefe = jo.getJSONObject("chefe");
+                                    for (Chefe c : chefes){
+                                        if(c.getId() == joChefe.getInt("id")){
+                                            chefe = c;
+                                            break;
+                                        }
+                                    }
+                                    //Não achou nenhum chef na lista
+                                    if(chefe == null){
+                                        chefe = new Chefe();
+                                        chefe.setId(joChefe.getInt("id"));
+                                        chefe.setNome(joChefe.getString("nome"));
+                                        chefes.add(chefe);
+                                    }
+                                    Refeicao refeicao;
+                                    refeicao = new Refeicao(chefe);
+                                    refeicao.setNome(jo.getString("nome"));
+                                    refeicao.setDescricao(jo.getString("descricao"));
+                                    refeicao.setValor((float)jo.getDouble("valor"));
+                                    refeicao.setDiaSemana(jo.getInt("dia_semana"));
+                                    refeicoes.add(refeicao);
+                                }
                                 Intent intent = new Intent();
-                                intent.setClass(MainActivity.this, MenuActivity.class);
-                                findViewById(R.id.progressBar).setVisibility(View.GONE);
+                                intent.setClass(MainActivity.this, ListaActivity.class);
+                                //intent.putParcelableArrayListExtra("chefes",chefes);
+                                intent.putParcelableArrayListExtra("refeicoes",refeicoes);
                                 startActivity(intent);
                                 finish();
+
 
                             }else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
