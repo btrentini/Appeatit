@@ -77,7 +77,7 @@ public class ListaActivity extends AppCompatActivity {
         imgBuscar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.d("Log","Oi");
+
                 atualizarLista();
                 return true;
             }
@@ -152,6 +152,7 @@ public class ListaActivity extends AppCompatActivity {
                                     refeicao.setDiaSemana(jo.getInt("dia_semana"));
                                     refeicoes.add(refeicao);
                                 }
+                                Log.d("Log","Oi");
                                 adapter.notifyDataSetChanged();
 
                             }else {

@@ -26,17 +26,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+
+                android:text="Lazanha da Vó Rosa"
                 android:layout_toRightOf="@+id/img"
                 android:id="@+id/refeicao"
-                android:textSize="19sp"
+
                 android:textColor="@color/black"
+
                 />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/avaliacoes"
-                android:text=""
+
                 android:id="@+id/descricao"
                 android:layout_toRightOf="@+id/img"
                 android:layout_below="@+id/refeicao"
@@ -48,7 +50,7 @@
                 android:layout_alignParentRight="true"
                 android:text="$15"
                 android:textColor="@color/red"
-                android:textSize="20sp"
+
                 android:id="@+id/preco"
                 />
             <LinearLayout
@@ -60,14 +62,14 @@
 
                 >
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_below="@+id/chefe"
                     android:src="@drawable/star"
                     />
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_below="@+id/chefe"
                     android:src="@drawable/star"
                     />

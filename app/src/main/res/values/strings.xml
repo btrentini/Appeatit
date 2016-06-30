@@ -17,4 +17,5 @@
     <string name="place">Place</string>
     <string name="food">Food</string>
     <string name="buscar">I want to eat...</string>
+    <string name="title_dialog_date"><![CDATA[Pick a Date & Hour]]></string>
 </resources>

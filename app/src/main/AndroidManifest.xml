@@ -11,8 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:windowSoftInputMode="adjustResize|adjustPan"
-            android:name=".MainActivity" />
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustResize|adjustPan" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,12 +21,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:windowSoftInputMode="adjustResize|adjustPan"
-            android:name=".CadastrarActivity" />
+            android:name=".CadastrarActivity"
+            android:windowSoftInputMode="adjustResize|adjustPan" />
         <activity android:name=".MenuActivity" />
         <activity android:name=".ListaActivity" />
         <activity android:name=".DetalhesChefeActivity" />
-        <activity android:name=".DetalhesPratoActivity"></activity>
+        <activity android:name=".DetalhesPratoActivity" />
+        <activity android:name=".ConfirmarReservaActivity"></activity>
     </application>
 
 </manifest>
