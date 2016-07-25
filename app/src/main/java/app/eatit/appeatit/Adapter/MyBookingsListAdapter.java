@@ -11,8 +11,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import app.eatit.appeatit.Model.Booking;
-import app.eatit.appeatit.Model.Refeicao;
-import app.eatit.appeatit.MyBookings;
 import app.eatit.appeatit.R;
 
 /**

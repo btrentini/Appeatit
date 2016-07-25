@@ -3,7 +3,7 @@ package app.eatit.appeatit;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MyBookings extends AppCompatActivity {
+public class MyBookingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

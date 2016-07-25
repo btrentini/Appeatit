@@ -30,7 +30,7 @@
         <activity android:name=".ConfirmarReservaActivity" />
         <activity android:name=".CadastrarCartaoActivity" />
         <activity android:name=".SelectCardActivity" />
-        <activity android:name=".MyBookings"></activity>
+        <activity android:name=".MyBookingsActivity"></activity>
     </application>
 
 </manifest>
