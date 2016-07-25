@@ -46,7 +46,6 @@ public class RefeicaoAdapter extends RecyclerView.Adapter<RefeicaoAdapter.Refeic
         if(desc.length() > 44){
             desc = refeicoes.get(position).getDescricao().substring(0,45);
         }
-
         holder.descricao.setText(desc+"...");
         holder.chefe.setText(refeicoes.get(position).getChefe().getNome());
     }

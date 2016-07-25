@@ -22,15 +22,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import app.eatit.appeatit.DAO.CustomObjectRequest;
-import app.eatit.appeatit.Model.Chefe;
+
 import app.eatit.appeatit.Model.Refeicao;
+import app.eatit.appeatit.Model.User;
+import app.eatit.appeatit.Utils.GlobalData;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button btnCadastrar,btnLogar;
     private EditText email, senha;
     private RequestQueue rq;
-    private ArrayList<Chefe> chefes;
+    private ArrayList<User> chefes;
     private ArrayList<Refeicao> refeicoes;
 
 
@@ -80,15 +82,23 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             if(response.getBoolean("status")){
+                                User user = new User();
+                                user.setNome(response.getString("nome"));
+                                user.setTipo('G');
+                                user.setEmail(response.getString("email"));
+                                user.setId(response.getInt("id"));
+                                GlobalData.getInstance().setUser(user);
 
-                                JSONArray ja = response.getJSONArray("refeicoes");
+                                //TODO Arrumar este metodo indo para o catch, cannot convert jo to ja
+                                JSONObject refeicoesJson = response.getJSONObject("refeicoes");
+                                JSONArray ja = refeicoesJson.getJSONArray("refeicoes");
                                 for(int i = 0; i < ja.length(); i++){
                                     JSONObject jo = ja.getJSONObject(i);
 
                                     //Cria Chefes
-                                    Chefe chefe = null;
+                                    User chefe = null;
                                     JSONObject joChefe = jo.getJSONObject("chefe");
-                                    for (Chefe c : chefes){
+                                    for (User c : chefes){
                                         if(c.getId() == joChefe.getInt("id")){
                                             chefe = c;
                                             break;
@@ -96,13 +106,15 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                     //Não achou nenhum chef na lista
                                     if(chefe == null){
-                                        chefe = new Chefe();
+                                        chefe = new User();
+                                        chefe.setTipo('C');
                                         chefe.setId(joChefe.getInt("id"));
                                         chefe.setNome(joChefe.getString("nome"));
                                         chefes.add(chefe);
                                     }
                                     Refeicao refeicao;
                                     refeicao = new Refeicao(chefe);
+                                    refeicao.setId(jo.getInt("id"));
                                     refeicao.setNome(jo.getString("nome"));
                                     refeicao.setDescricao(jo.getString("descricao"));
                                     refeicao.setValor((float)jo.getDouble("valor"));

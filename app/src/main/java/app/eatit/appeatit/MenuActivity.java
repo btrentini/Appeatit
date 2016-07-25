@@ -1,4 +1,4 @@
-package app.eatit.appeatit;
+/*package app.eatit.appeatit;
 
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -121,3 +121,4 @@ public class MenuActivity extends AppCompatActivity {
         rq.add(request);
     }
 }
+*/

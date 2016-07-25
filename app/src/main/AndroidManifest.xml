@@ -27,7 +27,10 @@
         <activity android:name=".ListaActivity" />
         <activity android:name=".DetalhesChefeActivity" />
         <activity android:name=".DetalhesPratoActivity" />
-        <activity android:name=".ConfirmarReservaActivity"></activity>
+        <activity android:name=".ConfirmarReservaActivity" />
+        <activity android:name=".CadastrarCartaoActivity" />
+        <activity android:name=".SelectCardActivity" />
+        <activity android:name=".MyBookings"></activity>
     </application>
 
 </manifest>

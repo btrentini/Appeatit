@@ -106,21 +106,24 @@
 
         </RadioGroup>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Date &amp; Hour"
             android:layout_marginTop="5dp"
-            android:id="@+id/textView3" />
+            android:id="@+id/date"
+            android:hint="@string/date"
 
-        <TextView
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            />
+
+
+        <EditText
+
             android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tap here to select!"
-            android:id="@+id/date_hour" />
+            android:id="@+id/hour"
+            android:hint="@string/hour"
+            />
 
 
 
@@ -138,6 +141,16 @@
         android:layout_alignParentEnd="true"
         android:layout_margin="16dp"
         />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        />
+
 
 
 
