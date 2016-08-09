@@ -16,10 +16,47 @@ public class User implements Parcelable{
     private char tipo;
     private ArrayList<Refeicao> refeicoes;
     private ArrayList<CreditCard> creditCards;
+    private ArrayList<Booking> bookings;
+    private ArrayList<Booking> guests;
+
 
     public User(){
         this.tipo = 'G';
     }
+
+
+    protected User(Parcel in) {
+        nome = in.readString();
+        email = in.readString();
+        id = in.readInt();
+
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(nome);
+        dest.writeString(email);
+        dest.writeInt(id);
+
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
     public char getTipo() {
         return tipo;
     }
@@ -109,36 +146,13 @@ public class User implements Parcelable{
             this.creditCards.add(card);
         }
     }
-
-
-    protected User(Parcel in) {
-        nome = in.readString();
-        email = in.readString();
-        id = in.readInt();
+    public ArrayList<Booking> getBookings() {
+        return bookings;
     }
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
-
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setBookings(ArrayList<Booking> bookings) {
+        this.bookings = bookings;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(nome);
-        dest.writeString(email);
-        dest.writeInt(id);
-    }
+
 }

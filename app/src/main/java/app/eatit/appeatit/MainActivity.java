@@ -1,6 +1,8 @@
 package app.eatit.appeatit;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -70,10 +72,16 @@ public class MainActivity extends AppCompatActivity {
         chefes = new ArrayList<>();
         refeicoes = new ArrayList<>();
         findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        SharedPreferences sharedPreferences = getSharedPreferences("deviceToken", Context.MODE_PRIVATE);
+
         HashMap<String,String> params;
         params = new HashMap<>();
         params.put("email",email.getText().toString());
         params.put("senha",senha.getText().toString());
+        if(sharedPreferences.contains("deviceToken")){
+            params.put("deviceToken",sharedPreferences.getString("deviceToken",""));
+            params.put("OS","A");
+        }
         CustomObjectRequest request = new CustomObjectRequest(Request.Method.POST,
                 "http://acesolutions.com.br/Appeatit/logar.php",
                 params,

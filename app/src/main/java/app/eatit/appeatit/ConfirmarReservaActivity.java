@@ -43,7 +43,7 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
     private Booking booking;
     private Refeicao refeicao;
     private Intent params;
-    private Date data;
+
     //----
     private RequestQueue rq;
 
@@ -99,11 +99,82 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         btnConfirm.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
+                makeBook();
             }
         });
     }
 
+
+    private void makeBook() {
+        findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+
+        HashMap<String,String> paramsService = new HashMap<>();
+        paramsService.put("idUser",String.valueOf(booking.getGuest().getId()));
+        paramsService.put("id_meal",String.valueOf(booking.getRefeicao().getId()));
+        paramsService.put("date",booking.getData());
+
+        CustomObjectRequest request = new CustomObjectRequest(
+                Request.Method.POST,
+                DatabaseHelper.BOOKINGSERVICE,
+                paramsService,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //TODO Tratar resposta do servidor.
+                        Log.i("Log","Response - "+response);
+                        try {
+
+                            if(response.getBoolean("status")){
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmarReservaActivity.this);
+                                builder.setTitle("Success");
+                                builder.setMessage(response.getString("message"));
+                                builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent();
+                                        intent.setClass(ConfirmarReservaActivity.this,ListaActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
+                                findViewById(R.id.progressBar).setVisibility(View.GONE);
+                                builder.show();
+                            }else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmarReservaActivity.this);
+                                builder.setTitle("Fail");
+                                builder.setMessage(response.getString("message"));
+                                builder.setNeutralButton("Ok",null);
+                                findViewById(R.id.progressBar).setVisibility(View.GONE);
+                                builder.show();
+                            }
+                        } catch (JSONException e) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmarReservaActivity.this);
+                            builder.setTitle("Error");
+                            builder.setMessage("Erro while making your book");
+                            builder.setNeutralButton("Ok",null);
+                            findViewById(R.id.progressBar).setVisibility(View.GONE);
+                            e.printStackTrace();
+                            builder.show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmarReservaActivity.this);
+                        builder.setTitle("Error");
+                        builder.setMessage("Erro while making your book");
+                        builder.setNeutralButton("Ok",null);
+                        findViewById(R.id.progressBar).setVisibility(View.GONE);
+                        builder.show();
+                    }
+                }
+        );
+
+        request.setTag("pay");
+        rq.add(request);
+    }
+/*
     private void checkCreditCards(){
         findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
         HashMap<String,String> paramsService = new HashMap<>();
@@ -175,4 +246,6 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         request.setTag("checkCreditCards");
         rq.add(request);
     }
+*/
+
 }

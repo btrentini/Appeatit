@@ -10,26 +10,26 @@ import java.util.Date;
  */
 public class Booking implements Parcelable {
 
+    private int id;
     private Refeicao refeicao;
     private User guest;
     private String data;
 
-    public Booking(){
-
-    }
-
-
     protected Booking(Parcel in) {
+        id = in.readInt();
         refeicao = in.readParcelable(Refeicao.class.getClassLoader());
         guest = in.readParcelable(User.class.getClassLoader());
         data = in.readString();
+        status = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeParcelable(refeicao, flags);
         dest.writeParcelable(guest, flags);
         dest.writeString(data);
+        dest.writeString(status);
     }
 
     @Override
@@ -48,6 +48,22 @@ public class Booking implements Parcelable {
             return new Booking[size];
         }
     };
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    private String status;
+
+    public Booking(){
+
+    }
+
+
 
     public String getData() {
         return data;
@@ -73,6 +89,13 @@ public class Booking implements Parcelable {
         this.refeicao = refeicao;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
 
 }

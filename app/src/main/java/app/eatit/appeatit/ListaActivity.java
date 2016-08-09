@@ -33,24 +33,29 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import app.eatit.appeatit.Adapter.RecyclerClickListener;
 import app.eatit.appeatit.Adapter.RefeicaoAdapter;
 import app.eatit.appeatit.DAO.CustomObjectRequest;
+import app.eatit.appeatit.Model.Booking;
 import app.eatit.appeatit.Model.Refeicao;
 import app.eatit.appeatit.Model.User;
+import app.eatit.appeatit.Utils.GlobalData;
 
 public class ListaActivity extends AppCompatActivity {
 
     private RecyclerView rv;
-
+    private RefeicaoAdapter adapter;
     private ArrayList<Refeicao> refeicoes;
     private ArrayList<User> chefes;
     private Intent params;
     private ImageView imgBuscar;
     private RequestQueue rq;
     private EditText busca;
-    private RefeicaoAdapter adapter;
+
+    private ArrayList<Booking> bookings;
+    private ArrayList<Booking> guests;
     //Drawer
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
@@ -104,11 +109,8 @@ public class ListaActivity extends AppCompatActivity {
 
         rv = (RecyclerView) findViewById(R.id.rv);
         rv.setHasFixedSize(true);
-
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
-
-
         adapter = new RefeicaoAdapter(refeicoes, this);
         rv.setAdapter(adapter);
 
@@ -165,15 +167,9 @@ public class ListaActivity extends AppCompatActivity {
         // Create a new fragment and specify the fragment to show based on nav item clicked
 
         switch(menuItem.getItemId()) {
-            case R.id.nav_first_fragment:
-
-                break;
-            case R.id.nav_second_fragment:
-
-                break;
-            case R.id.nav_third_fragment:
-
-                break;
+            case R.id.myBookings:
+                myBookings();
+            break;
             default:
                 break;
         }
@@ -199,11 +195,9 @@ public class ListaActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             if(response.getBoolean("status")){
-
                                 JSONArray ja = response.getJSONArray("refeicoes");
                                 for(int i = 0; i < ja.length(); i++){
                                     JSONObject jo = ja.getJSONObject(i);
-
                                     //Cria Chefes
                                     User chefe = null;
                                     JSONObject joChefe = jo.getJSONObject("chefe");
@@ -232,7 +226,6 @@ public class ListaActivity extends AppCompatActivity {
                                 }
                                 Log.d("Log","Oi");
                                 adapter.notifyDataSetChanged();
-
                             }else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(ListaActivity.this);
                                 builder.setTitle("Atenção");
@@ -254,6 +247,79 @@ public class ListaActivity extends AppCompatActivity {
                 }
         );
         request.setTag("buscar");
+        rq.add(request);
+    }
+
+    private void myBookings(){
+        HashMap<String,String> params = new HashMap<>();
+        params.put("idUser", String.valueOf(GlobalData.getInstance().getUser().getId()));
+        params.put("action","my_bookings");
+        params.put("userType",String.valueOf(GlobalData.getInstance().getUser().getTipo()));
+
+        CustomObjectRequest request = new CustomObjectRequest(
+                Request.Method.POST,
+                "http://www.acesolutions.com.br/Appeatit/services/booking.php",
+                params,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i("Log","Resposta - "+response);
+                        try {
+                            JSONArray bookingsResponse = null;
+                            JSONArray guestsResponse = null;
+                            //As Guest
+                            if(!response.get("bookings").equals(null)){
+                                bookings = new ArrayList<>();
+                                bookingsResponse= response.getJSONArray("bookings");
+                                for(int i = 0; i < bookingsResponse.length(); i++){
+                                    JSONObject jo = bookingsResponse.getJSONObject(i);
+                                    Booking book = new Booking();
+                                    book.setId(jo.getInt("bookingId"));
+                                    book.setData(jo.getString("date"));
+                                    book.setStatus(jo.getString("status"));
+                                    book.setGuest(GlobalData.getInstance().getUser());
+                                    JSONObject joChef = jo.getJSONObject("chef");
+                                    User chef = new User();
+                                    chef.setTipo('C');
+                                    chef.setNome(joChef.getString("name"));
+                                    chef.setId(joChef.getInt("id"));
+                                    Refeicao ref = new Refeicao(chef);
+                                    ref.setId(jo.getInt("mealId"));
+                                    ref.setNome(jo.getString("mealName"));
+                                    ref.setDescricao(jo.getString("mealDescr"));
+                                    ref.setValor((float)jo.getDouble("mealPrice"));
+                                    book.setRefeicao(ref);
+                                    bookings.add(book);
+                                }
+                             //   Log.i("Log",bookings.toString()+"");
+                            }
+                            //As Chef
+                            //guests = response.getJSONArray("guests");
+                            if(!response.get("guests").equals(false)){
+                                guestsResponse = response.getJSONArray("guests");
+                            }
+                            Intent intent = new Intent();
+                            intent.setClass(ListaActivity.this,MyBookingsActivity.class);
+                            if(bookings != null){
+                                intent.putParcelableArrayListExtra("bookings",bookings);
+                            }
+                            if(guests!= null){
+                                intent.putParcelableArrayListExtra("guests",guests);
+                            }
+                            startActivity(intent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }
+        );
+        request.setTag("myBookings");
         rq.add(request);
     }
 }
