@@ -6,7 +6,6 @@
     tools:context="app.eatit.appeatit.MainActivity"
     android:id="@+id/mainlayout"
     android:background="@drawable/background2">
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
