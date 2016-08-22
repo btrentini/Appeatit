@@ -7,8 +7,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.graphics.Color;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +35,8 @@ import app.eatit.appeatit.Model.Refeicao;
 import app.eatit.appeatit.Model.User;
 import app.eatit.appeatit.Utils.GlobalData;
 
+import android.graphics.Paint;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button btnCadastrar,btnLogar;
@@ -36,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     private RequestQueue rq;
     private ArrayList<User> chefes;
     private ArrayList<Refeicao> refeicoes;
+    private TextView forgotpwdlink, forgotpwdphrase;
+    private FrameLayout logolayout;
+    private RelativeLayout signuplayout, signinlayout;
 
 
     @Override
@@ -43,12 +54,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        logolayout = (FrameLayout) findViewById(R.id.logolayout);
+        signuplayout = (RelativeLayout) findViewById(R.id.signuplayout);
+        signinlayout = (RelativeLayout) findViewById(R.id.signinlayout);
 
-        btnCadastrar = (Button) findViewById(R.id.btnCadastrar);
-        btnLogar = (Button) findViewById(R.id.btnLogar);
-        email = (EditText) findViewById(R.id.campoEmail);
-        senha = (EditText) findViewById(R.id.campoSenha);
+        btnCadastrar = (Button) findViewById(R.id.signup);
+        btnLogar = (Button) findViewById(R.id.btnlogin);
+        email = (EditText) findViewById(R.id.email);
+        senha = (EditText) findViewById(R.id.password);
+
         rq = Volley.newRequestQueue(this);
+
         btnLogar.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -58,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnCadastrar.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -66,9 +81,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     public void logar(){
+
         chefes = new ArrayList<>();
         refeicoes = new ArrayList<>();
         findViewById(R.id.progressBar).setVisibility(View.VISIBLE);

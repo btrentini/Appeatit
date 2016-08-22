@@ -30,7 +30,6 @@ import app.eatit.appeatit.Utils.GlobalData;
 
 public class SelectCardActivity extends AppCompatActivity {
 
-
     private Booking booking;
     private Intent params;
     private Spinner spinner;
@@ -119,7 +118,7 @@ public class SelectCardActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(SelectCardActivity.this);
                         builder.setTitle("Error");
-                        builder.setMessage("Erro while making your book");
+                        builder.setMessage("Error while making your book");
                         builder.setNeutralButton("Ok",null);
                         findViewById(R.id.progressBar).setVisibility(View.GONE);
                         builder.show();

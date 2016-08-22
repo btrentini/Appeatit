@@ -58,12 +58,17 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         rq = Volley.newRequestQueue(this);
 
         booking = new Booking();
+
         booking.setGuest(GlobalData.getInstance().getUser());
         booking.setRefeicao(refeicao);
+
         dialog = new Dialog(ConfirmarReservaActivity.this);
         dialog.setContentView(R.layout.dialog_date);
+
         dialog.setTitle(R.string.title_dialog_date);
+
         final DatePicker datePicker = (DatePicker) dialog.findViewById(R.id.datePicker);
+
         btnDialogCancel = (Button) dialog.findViewById(R.id.btnDialogCancel);
         btnDialogSelect = (Button) dialog.findViewById(R.id.btnDialogSelect);
         btnDialogCancel.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +100,7 @@ public class ConfirmarReservaActivity extends AppCompatActivity {
         });
 
         btnConfirm = (Button) findViewById(R.id.btnConfirm);
+
         //TODO alertar aqui para confirmar a reserva
         btnConfirm.setOnClickListener(new View.OnClickListener(){
             @Override

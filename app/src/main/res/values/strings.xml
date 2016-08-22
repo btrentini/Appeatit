@@ -10,7 +10,7 @@
     <string name="checkAll">Confira todos os Pratos</string>
     <string name="rating">Rating</string>
     <string name="register">Cadastrar</string>
-    <string name="login">Logar</string>
+    <string name="login">Log in</string>
     <string name="reservar">Reservar</string>
     <string name="onde">Aonde</string>
     <string name="chef">Chef</string>
@@ -22,10 +22,14 @@
     <string name="hour">Hour</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
     <string name="error_message">Error, try again later</string>
-
+    <string name="signup">Don\'t have an account? Sign up!</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="bookings">My Bookings</string>
     <string name="gcm_defaultSenderId">562602979539</string>
+    <string name="contact_us"><s>Contact us!</s></string>
+    <string name="troubles_to_connect">Troubles to connect?</string>
 </resources>

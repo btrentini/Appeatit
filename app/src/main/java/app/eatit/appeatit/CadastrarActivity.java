@@ -35,7 +35,7 @@ public class CadastrarActivity extends AppCompatActivity {
 
         btnCadastrar = (Button) findViewById(R.id.btnCadastrar);
         email = (EditText) findViewById(R.id.campoEmail);
-        senha = (EditText) findViewById(R.id.campoSenha);
+        senha = (EditText) findViewById(R.id.password);
         nome = (EditText) findViewById(R.id.campoNome);
         rq = Volley.newRequestQueue(this);
 

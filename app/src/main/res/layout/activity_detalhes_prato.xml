@@ -7,8 +7,8 @@
     tools:context=".DetalhesPratoActivity">
 
     <include
-        layout="@layout/toolbar"
-        />
+        layout="@layout/toolbar"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -97,22 +97,6 @@
 
                     >
 
-                    <TextView
-                        android:text="@string/chef"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"
-                        android:drawableLeft="@drawable/chefe_hat"
-                        android:drawablePadding="5dp"
-                        />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:maxWidth="100dp"
-                        android:maxHeight="100dp"
-                        android:src="@drawable/chef"
-                        android:id="@+id/imgChefe" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -123,50 +107,6 @@
                     android:padding="5dp"
                     >
 
-                    <TextView
-                        android:text="@string/place"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"
-                        android:drawableLeft="@drawable/home"
-                        android:drawablePadding="5dp"
-                        />
-                    <ImageView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:maxWidth="100dp"
-                        android:maxHeight="100dp"
-                        android:src="@drawable/house"
-                        android:scaleType="centerInside"
-                        android:id="@+id/imgCasa" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    >
-
-                    <TextView
-                        android:text="@string/food"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"
-                        android:drawableLeft="@drawable/dinner"
-                        android:drawablePadding="5dp"
-                        />
-                    <ImageView
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:maxWidth="100dp"
-                        android:maxHeight="100dp"
-                        android:src="@drawable/prato2"
-                        android:id="@+id/imgFood" />
                 </LinearLayout>
 
 
