@@ -4,6 +4,11 @@ buildscript {
     repositories {
         jcenter()
     }
+
+    dependencies {
+        classpath "io.realm:realm-gradle-plugin:3.0.0"
+    }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
 
@@ -16,6 +21,7 @@ allprojects {
     repositories {
         jcenter()
     }
+
 }
 
 task clean(type: Delete) {
