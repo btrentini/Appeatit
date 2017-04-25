@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -40,7 +41,7 @@ public class DetailActivity extends BaseActivity {
 
         params = getIntent();
         dailyMeal = params.getParcelableExtra("daily");
-        Log.d("DEBUG","Daily -> "+dailyMeal.getMeal().getName());
+        Log.d("DEBUG","Daily Street-> "+dailyMeal.getAddress().getStreet());
 
         Button btnConfirm = (Button) findViewById(R.id.btnConfirm);
         btnConfirm.setOnClickListener(new OnClickListener(){
@@ -55,7 +56,8 @@ public class DetailActivity extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         HashMap<String,String> paramsRequest = new HashMap<>();
-                        paramsRequest.put("teste","teste do androide");
+                        paramsRequest.put("idGuest","1");
+                        paramsRequest.put("idGuest",String.valueOf(dailyMeal.getId()));
                         CustomObjectRequest request = new CustomObjectRequest(
                                 Request.Method.POST,
                                 "http://appeatit.life/Booking/New",
@@ -64,7 +66,27 @@ public class DetailActivity extends BaseActivity {
                                     @Override
                                     public void onResponse(JSONObject response) {
 
-                                        Log.d("DEBUG","Request Done -> "+response);
+                                        try{
+                                            if(response.getBoolean("status")){
+                                                AlertDialog.Builder builderErro = new AlertDialog.Builder(DetailActivity.this);
+                                                builderErro.setTitle("Attention");
+                                                builderErro.setMessage("Book made succefully!");
+                                                builderErro.setNeutralButton("Ok",null);
+                                                builderErro.show();
+                                            }else {
+                                                AlertDialog.Builder builderErro = new AlertDialog.Builder(DetailActivity.this);
+                                                builderErro.setTitle("Attention");
+                                                builderErro.setMessage("Fail to book!");
+                                                builderErro.setNeutralButton("Ok",null);
+                                                builderErro.show();
+                                            }
+                                        }catch(JSONException e){
+                                            AlertDialog.Builder builderErro = new AlertDialog.Builder(DetailActivity.this);
+                                            builderErro.setTitle("Attention");
+                                            builderErro.setMessage("Confirm your booking?");
+                                            builderErro.setNeutralButton("Ok",null);
+                                            builderErro.show();
+                                        }
 
                                     }
                                 },
