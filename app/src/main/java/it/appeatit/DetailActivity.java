@@ -26,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public class DetailActivity extends BaseActivity {
 
         params = getIntent();
         dailyMeal = params.getParcelableExtra("daily");
-        Log.d("DEBUG","Daily -> "+dailyMeal.getMeal().getName());
+        Log.d("DEBUG","Daily Street-> "+dailyMeal.getAddress().getStreet());
 
         Button btnConfirm = (Button) findViewById(R.id.btnConfirm);
 
@@ -69,7 +70,6 @@ public class DetailActivity extends BaseActivity {
         btnConfirm.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View v) {
-
                 getClientTokenFromServer();
 
                 //AFTER
@@ -80,6 +80,65 @@ public class DetailActivity extends BaseActivity {
 
                 Log.i(TAG, "========== CLICOU!");
                 onBraintreeSubmit(v);
+              /*
+                AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+                builder.setTitle("Attention");
+                builder.setMessage("Confirm your booking?");
+                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        HashMap<String,String> paramsRequest = new HashMap<>();
+                        paramsRequest.put("idGuest","1");
+                        paramsRequest.put("idGuest",String.valueOf(dailyMeal.getId()));
+                        CustomObjectRequest request = new CustomObjectRequest(
+                                Request.Method.POST,
+                                "http://appeatit.life/Booking/New",
+                                paramsRequest,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+
+                                        try{
+                                            if(response.getBoolean("status")){
+                                                AlertDialog.Builder builderErro = new AlertDialog.Builder(DetailActivity.this);
+                                                builderErro.setTitle("Attention");
+                                                builderErro.setMessage("Book made succefully!");
+                                                builderErro.setNeutralButton("Ok",null);
+                                                builderErro.show();
+                                            }else {
+                                                AlertDialog.Builder builderErro = new AlertDialog.Builder(DetailActivity.this);
+                                                builderErro.setTitle("Attention");
+                                                builderErro.setMessage("Fail to book!");
+                                                builderErro.setNeutralButton("Ok",null);
+                                                builderErro.show();
+                                            }
+                                        }catch(JSONException e){
+                                            AlertDialog.Builder builderErro = new AlertDialog.Builder(DetailActivity.this);
+                                            builderErro.setTitle("Attention");
+                                            builderErro.setMessage("Confirm your booking?");
+                                            builderErro.setNeutralButton("Ok",null);
+                                            builderErro.show();
+                                        }
+
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+
+                                    }
+                                }
+
+                        );
+
+                        RequestQueue rq = Volley.newRequestQueue(DetailActivity.this);
+                        rq.add(request);
+                    }
+                });
+                builder.setNegativeButton("Cancel",null);
+                builder.show();
+                */
             }
         });
 
@@ -104,7 +163,8 @@ public class DetailActivity extends BaseActivity {
             }
         });
     }
-    public void onBraintreeSubmit(View view){
+    public void 
+      (View view){
         DropInRequest dropInRequest = new DropInRequest().clientToken(clientToken);
         startActivityForResult(dropInRequest.getIntent(this), BRAINTREE_REQUEST_CODE);
     }
