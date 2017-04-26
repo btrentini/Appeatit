@@ -1,3 +1,4 @@
+
 package it.appeatit;
 
 import com.loopj.android.http.*;
@@ -41,7 +42,8 @@ public class DetailActivity extends BaseActivity {
     private DailyMeal dailyMeal;
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String PATH_TO_SERVER = "http://localhost:21287/bt/client_token";
+    private static final String TOKEN_PATH = "http://appeatit.life/bt/client_token";
+    private static final String CHECKOUT = "http://appeatit.life/bt/checkout";
     private String clientToken;
     private static final int BRAINTREE_REQUEST_CODE = 4949;
 
@@ -52,32 +54,20 @@ public class DetailActivity extends BaseActivity {
         setContentView(R.layout.activity_detail);
         //setupToolbar(((Toolbar)findViewById(R.id.toolbar)),"Meal Details");
 
+        getClientTokenFromServer();
+
         params = getIntent();
         dailyMeal = params.getParcelableExtra("daily");
         Log.d("DEBUG","Daily -> "+dailyMeal.getMeal().getName());
 
         Button btnConfirm = (Button) findViewById(R.id.btnConfirm);
 
-        //BEFORE
-        Log.i(TAG, "========== BEFORE");
-        Log.i(TAG, "PATH: "+PATH_TO_SERVER);
-        Log.i(TAG, "TOKEN: "+clientToken);
-        Log.i(TAG, "REQUEST_CODE: "+BRAINTREE_REQUEST_CODE);
-
 
 
         btnConfirm.setOnClickListener(new OnClickListener(){
+
             @Override
             public void onClick(View v) {
-
-                getClientTokenFromServer();
-
-                //AFTER
-                Log.i(TAG, "========== AFTER");
-                Log.i(TAG, "PATH: "+PATH_TO_SERVER);
-                Log.i(TAG, "TOKEN: "+clientToken);
-                Log.i(TAG, "REQUEST_CODE: "+BRAINTREE_REQUEST_CODE);
-
                 Log.i(TAG, "========== CLICOU!");
                 onBraintreeSubmit(v);
             }
@@ -92,7 +82,7 @@ public class DetailActivity extends BaseActivity {
 
         Log.i(TAG, "ANDROID CLIENT: "+ androidClient.toString());
 
-        androidClient.get(PATH_TO_SERVER, new TextHttpResponseHandler() {
+        androidClient.get(TOKEN_PATH, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.d(TAG, getString(R.string.token_failed) + responseString);
@@ -126,9 +116,10 @@ public class DetailActivity extends BaseActivity {
         }
     }
     private void sendPaymentNonceToServer(String paymentNonce){
-        RequestParams params = new RequestParams("NONCE", paymentNonce);
+        RequestParams params = new RequestParams("checkout", paymentNonce);
+        params.put("payment_method_nonce", paymentNonce);
         AsyncHttpClient androidClient = new AsyncHttpClient();
-        androidClient.post(PATH_TO_SERVER, params, new TextHttpResponseHandler() {
+        androidClient.post(CHECKOUT, params, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.d(TAG, "Error: Failed to create a transaction");
