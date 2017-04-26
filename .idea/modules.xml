@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../...iml" filepath="$PROJECT_DIR$/../...iml" />
       <module fileurl="file://$PROJECT_DIR$/../com.android.support.constraint/constraint-layout/1.0.2/1.0.2.iml" filepath="$PROJECT_DIR$/../com.android.support.constraint/constraint-layout/1.0.2/1.0.2.iml" />
       <module fileurl="file://$PROJECT_DIR$/Appeatit.iml" filepath="$PROJECT_DIR$/Appeatit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Appeatit.iml" filepath="$PROJECT_DIR$/Appeatit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../Appeatit-Android.iml" filepath="$PROJECT_DIR$/../../../Appeatit-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/../com.android.support.constraint/com.android.support.constraint.iml" filepath="$PROJECT_DIR$/../com.android.support.constraint/com.android.support.constraint.iml" />
       <module fileurl="file://$PROJECT_DIR$/../com.android.support.constraint/constraint-layout/constraint-layout.iml" filepath="$PROJECT_DIR$/../com.android.support.constraint/constraint-layout/constraint-layout.iml" />
