@@ -20,35 +20,43 @@
             android:layout_alignParentStart="true" />
 
         <TextView
-            android:id="@+id/mealName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Spaghetti Bolognese"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:padding="10dp"
-            android:layout_below="@+id/imageMeal"
-            />
-
-        <TextView
             android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/tag"
-            android:drawableStart="@drawable/tag"
             android:drawablePadding="2dp"
             android:gravity="center_vertical"
             android:padding="10dp"
             android:maxLines="1"
             android:text="$ 10.5"
-            android:textSize="16sp"
-            android:layout_below="@+id/imageMeal"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp"
+            android:textSize="22sp"
+            android:textStyle="bold"
+
             android:textColor="@color/black"
-            />
+            android:layout_below="@+id/imageMeal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignWithParentIfMissing="false" />
+
+        <TextView
+            android:id="@+id/mealName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Spaghetti Bolognese"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:padding="10dp"
+            android:layout_below="@+id/imageMeal"
+            android:layout_toRightOf="@+id/price"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="false"
+            android:textStyle="normal" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -104,7 +112,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             >
 
             <!--
@@ -136,7 +144,13 @@
                 android:text="Up to 5 guests"
                 android:textSize="14sp"
                 />
-
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="4"
+                android:stepSize="1.0"
+                android:rating="2.0" />
 
 
         </LinearLayout>

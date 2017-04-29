@@ -50,9 +50,6 @@ public class DetailActivity extends BaseActivity {
     private final String CHECKOUT = "http://appeatit.life/bt/checkout";
     private final int BRAINTREE_REQUEST_CODE = 4949;
     private final String URL_BOOKING =  "http://appeatit.life/Booking/New";
-    //private final String URL_BOOKING =  "http://appeatit.life/Booking/Teste";
-
-
 
     private String clientToken;
 

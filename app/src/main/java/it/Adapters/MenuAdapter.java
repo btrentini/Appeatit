@@ -45,7 +45,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
     @Override
     public void onBindViewHolder(MenuViewHolder holder, final int position) {
-
         holder.mealName.setText(this.list.get(position).getMeal().getName());
         holder.chefName.setText(this.list.get(position).getMeal().getChef().getName());
         holder.price.setText(String.valueOf(this.list.get(position).getMeal().getPrice()));
@@ -74,6 +73,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         TextView chefName;
         TextView price;
         TextView address;
+        ImageView mealPhoto;
 
         public MenuViewHolder(View itemView) {
             super(itemView);
@@ -81,6 +81,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             chefName = (TextView) itemView.findViewById(R.id.chefName);
             price = (TextView) itemView.findViewById(R.id.price);
             address = (TextView) itemView.findViewById(R.id.address);
+            mealPhoto = (ImageView) itemView.findViewById(R.id.img);
 
         }
     }
