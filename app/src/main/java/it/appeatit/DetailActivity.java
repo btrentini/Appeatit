@@ -90,6 +90,7 @@ public class DetailActivity extends BaseActivity {
             paramsRequest.put("idGuest","1");
             paramsRequest.put("idDaily",String.valueOf(dailyMeal.getId()));
 
+
             RequestQueue rq = Volley.newRequestQueue(getApplicationContext());
             CustomObjectRequest request = new CustomObjectRequest(
                     Request.Method.POST,
@@ -99,6 +100,7 @@ public class DetailActivity extends BaseActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             Log.d("DEBUG",response.toString());
+                            //     onBraintreeSubmit();
                         }
                     },
                     new Response.ErrorListener() {
@@ -109,8 +111,8 @@ public class DetailActivity extends BaseActivity {
                     }
             );
 
-            onBraintreeSubmit();
-       //     rq.add(request);
+
+            rq.add(request);
         }
     };
 

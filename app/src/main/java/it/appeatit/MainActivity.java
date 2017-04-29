@@ -66,7 +66,6 @@ public class MainActivity extends BaseActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.i("INFO",response.toString());
                         try {
                             for(int i = 0; i < response.length(); i++){
                                 JSONObject jo = response.getJSONObject(i);
