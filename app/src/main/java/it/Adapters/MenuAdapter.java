@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     private Context context;
     private List<DailyMeal> list;
     private LayoutInflater layoutInflater;
+
     public MenuAdapter(List<DailyMeal> list, Context context){
         this.context = context;
         this.list = list;
@@ -45,7 +47,9 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
     @Override
     public void onBindViewHolder(MenuViewHolder holder, final int position) {
+
         holder.mealName.setText(this.list.get(position).getMeal().getName());
+
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -68,10 +72,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         TextView mealName;
         TextView chefName;
         TextView price;
+        ImageView mealPhoto;
 
         public MenuViewHolder(View itemView) {
             super(itemView);
             mealName = (TextView)itemView.findViewById(R.id.mealName);
+            mealPhoto = (ImageView) itemView.findViewById(R.id.img);
+            chefName = (TextView) itemView.findViewById(R.id.chefName);
+            price = (TextView) itemView.findViewById(R.id.price);
 
         }
     }

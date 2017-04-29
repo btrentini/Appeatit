@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -18,6 +19,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,12 +39,12 @@ import it.Model.User;
 public class MainActivity extends BaseActivity {
 
 
-    public final String URL = "https://appeatit.herokuapp.com";
+    public final String DAILY_MEALS = "http://appeatit.life/DailyMeals";
     private List<DailyMeal> dailyMealList = new ArrayList<>();
     private RecyclerView rv;
     private MenuAdapter adapter;
-
-
+    private String photo_decoded;
+    private RatingBar ratingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         setupToolbar(((Toolbar)findViewById(R.id.toolbar)));
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
         adapter = new MenuAdapter(dailyMealList, this);
 
@@ -61,7 +65,7 @@ public class MainActivity extends BaseActivity {
 
         CustomArrayRequest request = new CustomArrayRequest(
                 Request.Method.GET,
-                "http://appeatit.life/DailyMeals",
+                DAILY_MEALS,
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -79,6 +83,9 @@ public class MainActivity extends BaseActivity {
                                 meal.setName(joMeal.getString("name"));
                                 meal.setPrice((float)joMeal.getDouble("price"));
 
+                                photo_decoded = URLDecoder.decode(joMeal.getString("url_image"), "UTF-8");
+                                meal.setPhoto(photo_decoded);
+
                                 JSONObject joChef = joMeal.getJSONObject("User");
                                 User chef = new User();
                                 chef.setName(joChef.getString("name"));
@@ -86,7 +93,6 @@ public class MainActivity extends BaseActivity {
                                 chef.setEmail(joChef.getString("email"));
                                 meal.setChef(chef);
                                 dailyMeal.setMeal(meal);
-
 
                                 JSONObject joAddress = jo.getJSONObject("Address");
                                 Address address = new Address();
@@ -96,10 +102,11 @@ public class MainActivity extends BaseActivity {
                                 dailyMeal.setAddress(address);
                                 dailyMealList.add(dailyMeal);
 
-
                             }
                         }catch(JSONException e){
-                            Toast.makeText(MainActivity.this, "Erro no jsonParse -> "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Error  jsonParse -> "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        } catch (UnsupportedEncodingException e) {
+                            Toast.makeText(MainActivity.this, "Error decoding image -> "+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                         rv.setAdapter(adapter);
