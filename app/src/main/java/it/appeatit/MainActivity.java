@@ -93,6 +93,7 @@ public class MainActivity extends BaseActivity {
                                 Address address = new Address();
                                 address.setId(joAddress.getInt("id"));
                                 address.setStreet(joAddress.getString("street"));
+                                address.setNeighborhood(joAddress.getString("neighborhood"));
                                 chef.getAddressList().add(address);
                                 dailyMeal.setAddress(address);
                                 dailyMealList.add(dailyMeal);

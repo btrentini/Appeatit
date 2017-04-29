@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,6 +30,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 
@@ -58,14 +60,24 @@ public class DetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        //setupToolbar(((Toolbar)findViewById(R.id.toolbar)),"Meal Details");
-
-        getClientTokenFromServer();
-
         params = getIntent();
         dailyMeal = params.getParcelableExtra("daily");
-        Log.d("DEBUG","Daily -> "+dailyMeal.getMeal().getName());
+        /**
+         * Content Card
+         * */
+        TextView mealName, chefName, price, address;
+        mealName = (TextView) findViewById(R.id.mealName);
+        chefName = (TextView) findViewById(R.id.chefName);
+        price = (TextView) findViewById(R.id.price);
+        address = (TextView) findViewById(R.id.address);
 
+        mealName.setText(dailyMeal.getMeal().getName());
+        chefName.setText(dailyMeal.getMeal().getChef().getName());
+        price.setText(String.valueOf(dailyMeal.getMeal().getPrice()));
+        address.setText(dailyMeal.getAddress().getNeighborhood());
+
+
+        getClientTokenFromServer();
         Button btnConfirm = (Button) findViewById(R.id.btnConfirm);
 
         btnConfirm.setOnClickListener(new OnClickListener(){
