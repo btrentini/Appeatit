@@ -18,10 +18,10 @@ import io.realm.annotations.PrimaryKey;
 public class Meal implements Parcelable {
 
 
-
     private User chef;
     private String name;
     private float price;
+    private String photo;
 
     @PrimaryKey
     private int id;
@@ -37,6 +37,7 @@ public class Meal implements Parcelable {
         name = in.readString();
         price = in.readFloat();
         id = in.readInt();
+        photo = in.readString();
     }
 
     @Override
@@ -44,6 +45,7 @@ public class Meal implements Parcelable {
         dest.writeString(name);
         dest.writeFloat(price);
         dest.writeInt(id);
+        dest.writeString(photo);
     }
 
     @Override
@@ -94,4 +96,9 @@ public class Meal implements Parcelable {
     public void setId(int id) {
         this.id = id;
     }
+
+    public void setPhoto(String photo) { this.photo = photo;}
+
+    public String getPhoto(){return photo;}
+
 }
