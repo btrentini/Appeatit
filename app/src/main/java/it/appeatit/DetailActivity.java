@@ -1,6 +1,7 @@
 
 package it.appeatit;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.loopj.android.http.*;
 import com.braintreepayments.api.dropin.DropInActivity;
 import com.braintreepayments.api.dropin.DropInRequest;
@@ -41,12 +42,17 @@ public class DetailActivity extends BaseActivity {
     private Intent params;
     private DailyMeal dailyMeal;
 
-    private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String TOKEN_PATH = "http://appeatit.life/bt/client_token";
-    private static final String CHECKOUT = "http://appeatit.life/bt/checkout";
-    private String clientToken;
-    private static final int BRAINTREE_REQUEST_CODE = 4949;
+    /** Constants */
+    private final String TAG = MainActivity.class.getSimpleName();
+    private final String TOKEN_PATH = "http://appeatit.life/bt/client_token";
+    private final String CHECKOUT = "http://appeatit.life/bt/checkout";
+    private final int BRAINTREE_REQUEST_CODE = 4949;
+    private final String URL_BOOKING =  "http://appeatit.life/Booking/New";
+    //private final String URL_BOOKING =  "http://appeatit.life/Booking/Teste";
 
+
+
+    private String clientToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,19 +68,51 @@ public class DetailActivity extends BaseActivity {
 
         Button btnConfirm = (Button) findViewById(R.id.btnConfirm);
 
-
-
         btnConfirm.setOnClickListener(new OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "========== CLICOU!");
-                onBraintreeSubmit(v);
+                AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+                builder.setTitle(R.string.attention);
+                builder.setMessage(R.string.confirm_book);
+                builder.setPositiveButton(R.string.yes, confirmBook);
+                builder.setNegativeButton(R.string.no, null);
+                builder.show();
+
             }
         });
 
     }
+    DialogInterface.OnClickListener confirmBook = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            HashMap<String,String> paramsRequest = new HashMap<>();
+            paramsRequest.put("idGuest","1");
+            paramsRequest.put("idDaily",String.valueOf(dailyMeal.getId()));
 
+            RequestQueue rq = Volley.newRequestQueue(getApplicationContext());
+            CustomObjectRequest request = new CustomObjectRequest(
+                    Request.Method.POST,
+                    URL_BOOKING,
+                    paramsRequest,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d("DEBUG",response.toString());
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("DEBUG",error.getMessage());
+                        }
+                    }
+            );
+
+            onBraintreeSubmit();
+       //     rq.add(request);
+        }
+    };
 
     private void getClientTokenFromServer(){
 
@@ -94,7 +132,7 @@ public class DetailActivity extends BaseActivity {
             }
         });
     }
-    public void onBraintreeSubmit(View view){
+    public void onBraintreeSubmit(){
         DropInRequest dropInRequest = new DropInRequest().clientToken(clientToken);
         startActivityForResult(dropInRequest.getIntent(this), BRAINTREE_REQUEST_CODE);
     }
