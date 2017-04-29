@@ -66,6 +66,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     public static class MenuViewHolder extends RecyclerView.ViewHolder {
 
         TextView mealName;
+        TextView chefName;
+        TextView price;
 
         public MenuViewHolder(View itemView) {
             super(itemView);
