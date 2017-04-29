@@ -51,15 +51,14 @@ public class MainActivity extends BaseActivity {
         setupToolbar(((Toolbar)findViewById(R.id.toolbar)));
 
         adapter = new MenuAdapter(dailyMealList, this);
+
         rv = (RecyclerView) findViewById(R.id.my_recycler_view);
         rv.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
 
-
-
-
         RequestQueue rq = Volley.newRequestQueue(this);
+
         CustomArrayRequest request = new CustomArrayRequest(
                 Request.Method.GET,
                 "http://appeatit.life/DailyMeals",
