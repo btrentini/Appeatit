@@ -84,7 +84,7 @@ public class MainActivity extends BaseActivity {
                                 dailyMeal.setDate(new Date());//TODO: Arrumar data.
 
                                 JSONObject joMeal = jo.getJSONObject("Meal");
-                                    Meal meal = new Meal();
+                                Meal meal = new Meal();
 
                                     mealName = joMeal.getString("name");
                                     meal.setName(mealName);
@@ -108,11 +108,13 @@ public class MainActivity extends BaseActivity {
                                     dailyMeal.setMeal(meal);
 
                                 JSONObject joAddress = jo.getJSONObject("Address");
-                                    Address address = new Address();
-                                    address.setId(joAddress.getInt("id"));
-                                    address.setStreet(joAddress.getString("street"));
-                                    chef.getAddressList().add(address);
-                                    dailyMeal.setAddress(address);
+
+                                Address address = new Address();
+                                address.setId(joAddress.getInt("id"));
+                                address.setStreet(joAddress.getString("street"));
+                                address.setNeighborhood(joAddress.getString("neighborhood"));
+                                chef.getAddressList().add(address);
+                                dailyMeal.setAddress(address);
 
                                 dailyMealList.add(dailyMeal);
 

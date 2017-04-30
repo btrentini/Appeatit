@@ -38,8 +38,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     private Context context;
     private List<DailyMeal> list;
     private LayoutInflater layoutInflater;
-
-
     public MenuAdapter(List<DailyMeal> list, Context context){
         this.context = context;
         this.list = list;
@@ -80,8 +78,10 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
     @Override
     public void onBindViewHolder(MenuViewHolder holder, final int position) {
-
         holder.mealName.setText(this.list.get(position).getMeal().getName());
+        holder.chefName.setText(this.list.get(position).getMeal().getChef().getName());
+        holder.price.setText(String.valueOf(this.list.get(position).getMeal().getPrice()));
+        holder.address.setText(this.list.get(position).getAddress().getNeighborhood());
 
         float price = this.list.get(position).getMeal().getPrice();
         String priceString = Float.toString(price);
@@ -110,5 +110,24 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public static class MenuViewHolder extends RecyclerView.ViewHolder {
+
+        TextView mealName;
+        TextView chefName;
+        TextView price;
+        TextView address;
+        ImageView mealPhoto;
+
+        public MenuViewHolder(View itemView) {
+            super(itemView);
+            mealName = (TextView)itemView.findViewById(R.id.mealName);
+            chefName = (TextView) itemView.findViewById(R.id.chefName);
+            price = (TextView) itemView.findViewById(R.id.price);
+            address = (TextView) itemView.findViewById(R.id.address);
+            mealPhoto = (ImageView) itemView.findViewById(R.id.img);
+
+        }
     }
 }

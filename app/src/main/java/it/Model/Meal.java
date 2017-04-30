@@ -34,7 +34,9 @@ public class Meal implements Parcelable {
 
     }
 
+
     protected Meal(Parcel in) {
+        chef = in.readParcelable(User.class.getClassLoader());
         name = in.readString();
         price = in.readFloat();
         id = in.readInt();
@@ -43,6 +45,7 @@ public class Meal implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(chef, flags);
         dest.writeString(name);
         dest.writeFloat(price);
         dest.writeInt(id);
