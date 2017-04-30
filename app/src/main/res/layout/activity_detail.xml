@@ -15,14 +15,16 @@
 
     <TextView
         android:id="@+id/info"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/info_meal"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
+        android:textAlignment="center"
         android:padding="10dp"
-        android:text="@string/info"
-        android:textColor="@color/black"
+        android:text="@string/booking_details"
+        android:textAllCaps="true"
+        android:textColor="#ddd"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -31,48 +33,64 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/info"
+        android:layout_alignParentRight="true"
         android:orientation="vertical"
         android:padding="16dp">
 
+
         <LinearLayout
-            android:id="@+id/timeLayout"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/info"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center">
 
-            <TextView
+
+            <Button
+                android:id="@+id/btDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="Horário"
-                android:textSize="18sp" />
+                android:layout_marginLeft="10dp"
+                android:textColor="#FFFFFF"
+                android:textSize="12dp"
+                android:textStyle="normal"
+                android:textAlignment="center"
+                android:padding="16dp"
+                android:text="27 Jul 17"
+                android:background="@drawable/buttonshapeleft"
+                 />
 
+            <Button
+                android:id="@+id/btTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="12dp"
+                android:textStyle="normal"
+                android:textAlignment="center"
+                android:padding="16dp"
+                android:text="19:30 h"
+                android:background="@drawable/buttonshapecenter"
+                 />
+
+            <Button
+                android:id="@+id/btGuests"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10 Guests"
+                android:textColor="#FFFFFF"
+                android:textSize="12dp"
+                android:textStyle="normal"
+                android:textAlignment="center"
+                android:padding="16dp"
+                android:background="@drawable/buttonshaperight"
+                android:shadowColor="#A83434"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                />
         </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/peopleQtdeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/timeLayout"
-        android:orientation="horizontal"
-        android:padding="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="Quantidade pessoas"
-            android:textSize="18sp" />
-
-        <Spinner
-            android:id="@+id/spinnerQtdPeople"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        </LinearLayout>
 
     </LinearLayout>
 

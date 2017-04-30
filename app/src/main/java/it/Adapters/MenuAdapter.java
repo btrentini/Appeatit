@@ -87,7 +87,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     public void onBindViewHolder(MenuViewHolder holder, final int position) {
 
 
-        //int numberGuests = this.list.get(position).getMeal().getMaxPeople();
+        int numberGuests = this.list.get(position).getMeal().getMaxPeople();
 
         float price = this.list.get(position).getMeal().getPrice();
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
@@ -98,7 +98,12 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         String stars = this.list.get(position).getMeal().getRating();
         String urlPhoto = this.list.get(position).getMeal().getPhoto();
 
-        //holder.numberGuests.setText(numberGuests);
+        if(numberGuests > 1) {
+            holder.numberGuests.setText("Up to " + Integer.toString(numberGuests) + " guests");
+        }else{
+            holder.numberGuests.setText("Up to 1 guest");
+        }
+
         holder.mealName.setText(this.list.get(position).getMeal().getName());
         holder.price.setText(priceString);
         holder.chefName.setText(this.list.get(position).getMeal().getChef().getName());

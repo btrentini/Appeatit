@@ -118,7 +118,7 @@ public class Meal implements Parcelable {
         return maxPeople;
     }
 
-    public void setMaxPeople(int id) {
+    public void setMaxPeople(int maxPeople) {
         this.maxPeople = maxPeople;
     }
 

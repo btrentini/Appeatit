@@ -100,8 +100,8 @@ public class MainActivity extends BaseActivity {
                                     starRating = joMeal.getString("star_rating");
                                     meal.setRating(starRating);
 
-                                  //  maxPeople = joMeal.getInt("max_people");
-                                   // meal.setMaxPeople(maxPeople);
+                                    maxPeople = joMeal.getInt("max_people");
+                                    meal.setMaxPeople(maxPeople);
 
 
                                 JSONObject joChef = joMeal.getJSONObject("User");

@@ -3,6 +3,7 @@
     <string name="confirm">Confirm!</string>
     <string name="meal_desc">Meal image</string>
     <string name="info">INFO</string>
+    <string name="booking_details"> Confirm your booking details</string>
     <string name="make_a_reservation">BOOK NOW</string>
     <string name="failed_token">Client Failed to retrieve token from server</string>
     <string name="BraintreeFragment_initialized">BraintreeFragment is ready to use</string>
@@ -10,7 +11,12 @@
     <string name="token_failed">Fail to retrieve client token </string>
     <string name="attention">Attention</string>
     <string name="confirm_book">Confirm your Booking ?</string>
+    <string name="confirmed_pending_chef">Payment Confirmed! Waiting for Chefs Approval</string>
+    <string name="error_transaction">Bad transaction, Im sorry!</string>
+
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="ok">ok</string>
     <string name="pratos_hoje">Meals available today</string>
+
 </resources>
