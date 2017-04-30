@@ -21,6 +21,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -28,10 +30,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
 
 import it.Base.BaseActivity;
@@ -63,16 +67,28 @@ public class DetailActivity extends BaseActivity {
          * Content Card
          * */
         TextView mealName, chefName, price, address;
+        ImageView imageMeal;
+        RatingBar starRating;
+
         mealName = (TextView) findViewById(R.id.mealName);
         chefName = (TextView) findViewById(R.id.chefName);
         price = (TextView) findViewById(R.id.price);
         address = (TextView) findViewById(R.id.address);
+        imageMeal = (ImageView) findViewById(R.id.imageMeal);
+        starRating = (RatingBar) findViewById(R.id.starRating);
+
+        float priceFloat = dailyMeal.getMeal().getPrice();
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        formatter.setMinimumFractionDigits(2);
+        formatter.setMaximumFractionDigits(2);
+        String priceString = formatter.format(priceFloat);
 
         mealName.setText(dailyMeal.getMeal().getName());
         chefName.setText(dailyMeal.getMeal().getChef().getName());
-        price.setText(String.valueOf(dailyMeal.getMeal().getPrice()));
+        price.setText(priceString);
         address.setText(dailyMeal.getAddress().getNeighborhood());
-
+        starRating.setRating(Integer.parseInt(dailyMeal.getMeal().getRating()));
+        Picasso.with(imageMeal.getContext()).load(dailyMeal.getMeal().getPhoto()).into(imageMeal);
 
         getClientTokenFromServer();
         Button btnConfirm = (Button) findViewById(R.id.btnConfirm);
@@ -142,6 +158,10 @@ public class DetailActivity extends BaseActivity {
                 clientToken = responseToken;
             }
         });
+    }
+    public void spinnerLoad()
+    {
+
     }
     public void onBraintreeSubmit(){
         DropInRequest dropInRequest = new DropInRequest().clientToken(clientToken);

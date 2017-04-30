@@ -48,6 +48,7 @@ public class MainActivity extends BaseActivity {
     private double mealPrice;
     private String mealPhoto;
     private String starRating;
+    private int maxPeople;
 
 
     @Override
@@ -84,6 +85,7 @@ public class MainActivity extends BaseActivity {
                                 dailyMeal.setDate(new Date());//TODO: Arrumar data.
 
                                 JSONObject joMeal = jo.getJSONObject("Meal");
+
                                 Meal meal = new Meal();
 
                                     mealName = joMeal.getString("name");
@@ -98,6 +100,9 @@ public class MainActivity extends BaseActivity {
                                     starRating = joMeal.getString("star_rating");
                                     meal.setRating(starRating);
 
+                                  //  maxPeople = joMeal.getInt("max_people");
+                                   // meal.setMaxPeople(maxPeople);
+
 
                                 JSONObject joChef = joMeal.getJSONObject("User");
                                     User chef = new User();
@@ -110,11 +115,11 @@ public class MainActivity extends BaseActivity {
                                 JSONObject joAddress = jo.getJSONObject("Address");
 
                                 Address address = new Address();
-                                address.setId(joAddress.getInt("id"));
-                                address.setStreet(joAddress.getString("street"));
-                                address.setNeighborhood(joAddress.getString("neighborhood"));
-                                chef.getAddressList().add(address);
-                                dailyMeal.setAddress(address);
+                                    address.setId(joAddress.getInt("id"));
+                                    address.setStreet(joAddress.getString("street"));
+                                    address.setNeighborhood(joAddress.getString("neighborhood"));
+                                    chef.getAddressList().add(address);
+                                    dailyMeal.setAddress(address);
 
                                 dailyMealList.add(dailyMeal);
 
