@@ -22,6 +22,7 @@ public class Meal implements Parcelable {
     private String name;
     private float price;
     private String photo;
+    private String rating;
 
     @PrimaryKey
     private int id;
@@ -103,5 +104,9 @@ public class Meal implements Parcelable {
     public void setPhoto(String photo) { this.photo = photo;}
 
     public String getPhoto(){return photo;}
+
+    public void setRating(String rating) { this.rating = rating;}
+
+    public String getRating(){return rating;}
 
 }
