@@ -25,6 +25,7 @@ public class DailyMeal implements Parcelable {
 
     }
 
+
     protected DailyMeal(Parcel in) {
         id = in.readInt();
         meal = in.readParcelable(Meal.class.getClassLoader());
