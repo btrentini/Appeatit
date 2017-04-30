@@ -23,6 +23,7 @@ public class Meal implements Parcelable {
     private float price;
     private String photo;
     private String rating;
+    private int maxPeople;
 
     @PrimaryKey
     private int id;
@@ -41,6 +42,8 @@ public class Meal implements Parcelable {
         price = in.readFloat();
         id = in.readInt();
         photo = in.readString();
+        rating = in.readString();
+        maxPeople = in.readInt();
     }
 
     @Override
@@ -50,6 +53,8 @@ public class Meal implements Parcelable {
         dest.writeFloat(price);
         dest.writeInt(id);
         dest.writeString(photo);
+        dest.writeString(rating);
+        dest.writeInt(maxPeople);
     }
 
     @Override
@@ -108,5 +113,13 @@ public class Meal implements Parcelable {
     public void setRating(String rating) { this.rating = rating;}
 
     public String getRating(){return rating;}
+
+    public int getMaxPeople() {
+        return maxPeople;
+    }
+
+    public void setMaxPeople(int maxPeople) {
+        this.maxPeople = maxPeople;
+    }
 
 }

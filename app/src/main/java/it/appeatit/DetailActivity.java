@@ -21,6 +21,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -28,10 +31,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
 
 import it.Base.BaseActivity;
@@ -47,11 +52,12 @@ public class DetailActivity extends BaseActivity {
     /** Constants */
     private final String TAG = MainActivity.class.getSimpleName();
     private final String TOKEN_PATH = "http://appeatit.life/bt/client_token";
-    private final String CHECKOUT = "http://appeatit.life/bt/checkout";
+    private final String CHECKOUT = "http://appeatit.life/bt/NONCE";
     private final int BRAINTREE_REQUEST_CODE = 4949;
     private final String URL_BOOKING =  "http://appeatit.life/Booking/New";
 
     private String clientToken;
+    private int resultConfirm; //0 -> Error; 1->Success
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,31 +68,80 @@ public class DetailActivity extends BaseActivity {
         /**
          * Content Card
          * */
-        TextView mealName, chefName, price, address;
+        TextView mealName, chefName, price, address, numberGuests;
+        ImageView imageMeal;
+        RatingBar starRating;
+
         mealName = (TextView) findViewById(R.id.mealName);
         chefName = (TextView) findViewById(R.id.chefName);
         price = (TextView) findViewById(R.id.price);
         address = (TextView) findViewById(R.id.address);
+        numberGuests = (TextView) findViewById(R.id.numberGuests);
+        imageMeal = (ImageView) findViewById(R.id.imageMeal);
+        starRating = (RatingBar) findViewById(R.id.starRating);
+
+        float priceFloat = dailyMeal.getMeal().getPrice();
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        formatter.setMinimumFractionDigits(2);
+        formatter.setMaximumFractionDigits(2);
+        String priceString = formatter.format(priceFloat);
 
         mealName.setText(dailyMeal.getMeal().getName());
         chefName.setText(dailyMeal.getMeal().getChef().getName());
-        price.setText(String.valueOf(dailyMeal.getMeal().getPrice()));
+        price.setText(priceString);
+
+        int maxGuests = dailyMeal.getMeal().getMaxPeople();
+
+        if(maxGuests > 1) {
+            numberGuests.setText("Up to " + Integer.toString(maxGuests) + " guests");
+        }else{
+            numberGuests.setText("Up to 1 guest");
+        }
+
         address.setText(dailyMeal.getAddress().getNeighborhood());
+        starRating.setRating(Integer.parseInt(dailyMeal.getMeal().getRating()));
+        Picasso.with(imageMeal.getContext()).load(dailyMeal.getMeal().getPhoto()).into(imageMeal);
 
+        getClientTokenFromServer(); //Braintree Thing. Ultra Important.
 
-        getClientTokenFromServer();
         Button btnConfirm = (Button) findViewById(R.id.btnConfirm);
 
         btnConfirm.setOnClickListener(new OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
-                builder.setTitle(R.string.attention);
-                builder.setMessage(R.string.confirm_book);
-                builder.setPositiveButton(R.string.yes, confirmBook);
-                builder.setNegativeButton(R.string.no, null);
-                builder.show();
+                
+                onBraintreeSubmit();
+
+                if(resultConfirm > 0)
+                {
+                    HashMap<String,String> paramsRequest = new HashMap<>();
+                    paramsRequest.put("idGuest","1");
+                    paramsRequest.put("idDaily",String.valueOf(dailyMeal.getId()));
+
+
+                    RequestQueue rq = Volley.newRequestQueue(getApplicationContext());
+                    CustomObjectRequest request = new CustomObjectRequest(
+                            Request.Method.POST,
+                            URL_BOOKING,
+                            paramsRequest,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.d("DEBUG",response.toString());
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.d("DEBUG",error.getMessage());
+                                }
+                            }
+                    );
+
+
+                    rq.add(request);
+                }
 
             }
         });
@@ -109,7 +164,6 @@ public class DetailActivity extends BaseActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             Log.d("DEBUG",response.toString());
-                            //     onBraintreeSubmit();
                         }
                     },
                     new Response.ErrorListener() {
@@ -122,6 +176,12 @@ public class DetailActivity extends BaseActivity {
 
 
             rq.add(request);
+        }
+    };
+    DialogInterface.OnClickListener transactionCancelled = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            //Do nothing
         }
     };
 
@@ -165,17 +225,39 @@ public class DetailActivity extends BaseActivity {
         }
     }
     private void sendPaymentNonceToServer(String paymentNonce){
-        RequestParams params = new RequestParams("checkout", paymentNonce);
+
+        RequestParams params = new RequestParams("NONCE", paymentNonce);
+
         params.put("payment_method_nonce", paymentNonce);
+
         AsyncHttpClient androidClient = new AsyncHttpClient();
+
         androidClient.post(CHECKOUT, params, new TextHttpResponseHandler() {
+
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.d(TAG, "Error: Failed to create a transaction");
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+                builder.setTitle(R.string.attention);
+                builder.setMessage(R.string.error_transaction);
+                builder.setPositiveButton(R.string.ok, null);
+                resultConfirm = 0;
+                builder.show();
             }
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
+
                 Log.d(TAG, "Output " + responseString);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+                builder.setTitle(R.string.attention);
+                builder.setMessage(R.string.confirmed_pending_chef);
+                builder.setPositiveButton(R.string.ok, null);
+                resultConfirm = 1;
+                builder.show();
+
+
             }
         });
     }

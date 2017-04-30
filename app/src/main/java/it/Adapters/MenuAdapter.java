@@ -22,10 +22,11 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 import it.Model.DailyMeal;
-import it.Model.Meal;
 import it.appeatit.DetailActivity;
 import it.appeatit.R;
 
@@ -38,18 +39,22 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     private Context context;
     private List<DailyMeal> list;
     private LayoutInflater layoutInflater;
+
     public MenuAdapter(List<DailyMeal> list, Context context){
         this.context = context;
         this.list = list;
         this.layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
     public static class MenuViewHolder extends RecyclerView.ViewHolder {
 
         TextView mealName;
         TextView chefName;
         TextView price;
+        TextView numberGuests;
         ImageView imageMeal;
         RatingBar starRating;
+        TextView address;
 
         public MenuViewHolder(View itemView) {
             super(itemView);
@@ -58,7 +63,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             chefName = (TextView) itemView.findViewById(R.id.chefName);
             price = (TextView) itemView.findViewById(R.id.price);
             starRating = (RatingBar) itemView.findViewById(R.id.starRating);
-
+            address = (TextView) itemView.findViewById(R.id.address);
+            numberGuests = (TextView) itemView.findViewById(R.id.numberGuests);
 
 
         }
@@ -76,31 +82,41 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
     }
 
+
     @Override
     public void onBindViewHolder(MenuViewHolder holder, final int position) {
-        holder.mealName.setText(this.list.get(position).getMeal().getName());
-        holder.chefName.setText(this.list.get(position).getMeal().getChef().getName());
-        holder.price.setText(String.valueOf(this.list.get(position).getMeal().getPrice()));
-        holder.address.setText(this.list.get(position).getAddress().getNeighborhood());
+
+
+        int numberGuests = this.list.get(position).getMeal().getMaxPeople();
 
         float price = this.list.get(position).getMeal().getPrice();
-        String priceString = Float.toString(price);
-        holder.price.setText("$" + priceString);
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        formatter.setMinimumFractionDigits(2);
+        formatter.setMaximumFractionDigits(2);
+        String priceString = formatter.format(price);
 
         String stars = this.list.get(position).getMeal().getRating();
-
-        //holder.starRating.setNumStars(2);
-       holder.starRating.setNumStars(Integer.parseInt(stars));
-
         String urlPhoto = this.list.get(position).getMeal().getPhoto();
+
+        if(numberGuests > 1) {
+            holder.numberGuests.setText("Up to " + Integer.toString(numberGuests) + " guests");
+        }else{
+            holder.numberGuests.setText("Up to 1 guest");
+        }
+
+        holder.mealName.setText(this.list.get(position).getMeal().getName());
+        holder.price.setText(priceString);
+        holder.chefName.setText(this.list.get(position).getMeal().getChef().getName());
+        holder.starRating.setRating(Integer.parseInt(stars));
+        holder.address.setText(this.list.get(position).getAddress().getNeighborhood());
         Picasso.with(context).load(urlPhoto).into(holder.imageMeal);
 
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(context.getApplicationContext(), DetailActivity.class);
                 intent.putExtra("daily",list.get(position));
+                intent.setClass(context.getApplicationContext(), DetailActivity.class);
                 context.startActivity(intent);
 
             }
@@ -112,22 +128,4 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         return list.size();
     }
 
-    public static class MenuViewHolder extends RecyclerView.ViewHolder {
-
-        TextView mealName;
-        TextView chefName;
-        TextView price;
-        TextView address;
-        ImageView mealPhoto;
-
-        public MenuViewHolder(View itemView) {
-            super(itemView);
-            mealName = (TextView)itemView.findViewById(R.id.mealName);
-            chefName = (TextView) itemView.findViewById(R.id.chefName);
-            price = (TextView) itemView.findViewById(R.id.price);
-            address = (TextView) itemView.findViewById(R.id.address);
-            mealPhoto = (ImageView) itemView.findViewById(R.id.img);
-
-        }
-    }
 }
