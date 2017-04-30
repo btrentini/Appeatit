@@ -43,8 +43,12 @@ public class MainActivity extends BaseActivity {
     private List<DailyMeal> dailyMealList = new ArrayList<>();
     private RecyclerView rv;
     private MenuAdapter adapter;
-    private String photo_decoded;
-    private RatingBar ratingBar;
+
+    private String mealName;
+    private double mealPrice;
+    private String mealPhoto;
+    private String starRating;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         setupToolbar(((Toolbar)findViewById(R.id.toolbar)));
-        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
         adapter = new MenuAdapter(dailyMealList, this);
 
@@ -72,41 +75,52 @@ public class MainActivity extends BaseActivity {
                     public void onResponse(JSONArray response) {
                         try {
                             for(int i = 0; i < response.length(); i++){
+
                                 JSONObject jo = response.getJSONObject(i);
+
                                 DailyMeal dailyMeal = new DailyMeal();
 
                                 dailyMeal.setId(jo.getInt("id"));
                                 dailyMeal.setDate(new Date());//TODO: Arrumar data.
 
                                 JSONObject joMeal = jo.getJSONObject("Meal");
-                                Meal meal = new Meal();
-                                meal.setName(joMeal.getString("name"));
-                                meal.setPrice((float)joMeal.getDouble("price"));
+                                    Meal meal = new Meal();
 
-                                photo_decoded = URLDecoder.decode(joMeal.getString("url_image"), "UTF-8");
-                                meal.setPhoto(photo_decoded);
+                                    mealName = joMeal.getString("name");
+                                    meal.setName(mealName);
+
+                                    mealPrice = (float)joMeal.getDouble("price");
+                                    meal.setPrice((float)mealPrice);
+
+                                    mealPhoto = URLDecoder.decode(joMeal.getString("url_image"), "UTF-8");
+                                    meal.setPhoto(mealPhoto);
+
+                                    starRating = joMeal.getString("star_rating");
+                                    meal.setRating(starRating);
+
 
                                 JSONObject joChef = joMeal.getJSONObject("User");
-                                User chef = new User();
-                                chef.setName(joChef.getString("name"));
-                                chef.setId(joChef.getInt("id"));
-                                chef.setEmail(joChef.getString("email"));
-                                meal.setChef(chef);
-                                dailyMeal.setMeal(meal);
+                                    User chef = new User();
+                                    chef.setName(joChef.getString("name"));
+                                    chef.setId(joChef.getInt("id"));
+                                    chef.setEmail(joChef.getString("email"));
+                                    meal.setChef(chef);
+                                    dailyMeal.setMeal(meal);
 
                                 JSONObject joAddress = jo.getJSONObject("Address");
-                                Address address = new Address();
-                                address.setId(joAddress.getInt("id"));
-                                address.setStreet(joAddress.getString("street"));
-                                chef.getAddressList().add(address);
-                                dailyMeal.setAddress(address);
+                                    Address address = new Address();
+                                    address.setId(joAddress.getInt("id"));
+                                    address.setStreet(joAddress.getString("street"));
+                                    chef.getAddressList().add(address);
+                                    dailyMeal.setAddress(address);
+
                                 dailyMealList.add(dailyMeal);
 
                             }
                         }catch(JSONException e){
                             Toast.makeText(MainActivity.this, "Error  jsonParse -> "+e.getMessage(), Toast.LENGTH_SHORT).show();
                         } catch (UnsupportedEncodingException e) {
-                            Toast.makeText(MainActivity.this, "Error decoding image -> "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                           Toast.makeText(MainActivity.this, "Error decoding image -> "+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                         rv.setAdapter(adapter);
