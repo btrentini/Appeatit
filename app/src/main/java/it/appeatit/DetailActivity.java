@@ -33,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
@@ -58,11 +59,14 @@ public class DetailActivity extends BaseActivity {
 
     private String clientToken;
     private int resultConfirm; //0 -> Error; 1->Success
+    /** Volley */
+    private RequestQueue rq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        rq = Volley.newRequestQueue(getApplicationContext());
         params = getIntent();
         dailyMeal = params.getParcelableExtra("daily");
         /**
@@ -101,112 +105,49 @@ public class DetailActivity extends BaseActivity {
         address.setText(dailyMeal.getAddress().getNeighborhood());
         starRating.setRating(Integer.parseInt(dailyMeal.getMeal().getRating()));
         Picasso.with(imageMeal.getContext()).load(dailyMeal.getMeal().getPhoto()).into(imageMeal);
-
-        getClientTokenFromServer(); //Braintree Thing. Ultra Important.
-
         Button btnConfirm = (Button) findViewById(R.id.btnConfirm);
-
         btnConfirm.setOnClickListener(new OnClickListener(){
-
             @Override
             public void onClick(View v) {
-                
-                onBraintreeSubmit();
-
-                if(resultConfirm > 0)
-                {
-                    HashMap<String,String> paramsRequest = new HashMap<>();
-                    paramsRequest.put("idGuest","1");
-                    paramsRequest.put("idDaily",String.valueOf(dailyMeal.getId()));
-
-
-                    RequestQueue rq = Volley.newRequestQueue(getApplicationContext());
-                    CustomObjectRequest request = new CustomObjectRequest(
-                            Request.Method.POST,
-                            URL_BOOKING,
-                            paramsRequest,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    Log.d("DEBUG",response.toString());
-                                }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Log.d("DEBUG",error.getMessage());
-                                }
-                            }
-                    );
-
-
-                    rq.add(request);
-                }
-
+                processBraintree();
             }
         });
-
     }
-    DialogInterface.OnClickListener confirmBook = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            HashMap<String,String> paramsRequest = new HashMap<>();
-            paramsRequest.put("idGuest","1");
-            paramsRequest.put("idDaily",String.valueOf(dailyMeal.getId()));
 
 
-            RequestQueue rq = Volley.newRequestQueue(getApplicationContext());
-            CustomObjectRequest request = new CustomObjectRequest(
-                    Request.Method.POST,
-                    URL_BOOKING,
-                    paramsRequest,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d("DEBUG",response.toString());
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("DEBUG",error.getMessage());
+    private void processBraintree(){
+        CustomObjectRequest request = new CustomObjectRequest(
+                Request.Method.GET,
+                TOKEN_PATH
+                ,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Log.d(TAG, "Client token: " + response.getString("token"));
+                            clientToken = response.getString("token");
+                            onBraintreeSubmit();
+                        }catch (JSONException e){
+                            Log.d(TAG, "Erro Parse JSON");
                         }
                     }
-            );
-
-
-            rq.add(request);
-        }
-    };
-    DialogInterface.OnClickListener transactionCancelled = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            //Do nothing
-        }
-    };
-
-    private void getClientTokenFromServer(){
-
-        AsyncHttpClient androidClient = new AsyncHttpClient();
-
-        Log.i(TAG, "ANDROID CLIENT: "+ androidClient.toString());
-
-        androidClient.get(TOKEN_PATH, new TextHttpResponseHandler() {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d(TAG, getString(R.string.token_failed) + responseString);
-            }
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseToken) {
-                Log.d(TAG, "Client token: " + responseToken);
-                clientToken = responseToken;
-            }
-        });
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, getString(R.string.token_failed) + error.getMessage());
+                    }
+                }
+        );
+        rq.add(request);
     }
+
     public void onBraintreeSubmit(){
         DropInRequest dropInRequest = new DropInRequest().clientToken(clientToken);
         startActivityForResult(dropInRequest.getIntent(this), BRAINTREE_REQUEST_CODE);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == BRAINTREE_REQUEST_CODE){
@@ -226,39 +167,58 @@ public class DetailActivity extends BaseActivity {
     }
     private void sendPaymentNonceToServer(String paymentNonce){
 
-        RequestParams params = new RequestParams("NONCE", paymentNonce);
+        HashMap<String,String> paramsRequest = new HashMap<>();
+        paramsRequest.put("payment_method_nonce", paymentNonce);
+        paramsRequest.put("idGuest","1");
+        paramsRequest.put("idDailyMeal",String.valueOf(dailyMeal.getId()));
+        CustomObjectRequest request = new CustomObjectRequest(
+                Request.Method.POST,
+                CHECKOUT,
+                paramsRequest,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if (response.getBoolean("status")) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+                                builder.setTitle(R.string.attention);
+                                builder.setMessage(R.string.confirmed_pending_chef);
+                                builder.setPositiveButton(R.string.ok, null);
+                                resultConfirm = 1;
+                                builder.show();
+                            }else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+                                builder.setTitle(R.string.attention);
+                                builder.setMessage(R.string.error_transaction);
+                                builder.setPositiveButton(R.string.ok, null);
+                                resultConfirm = 0;
+                                builder.show();
+                            }
 
-        params.put("payment_method_nonce", paymentNonce);
+                        }catch(JSONException e) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+                            builder.setTitle(R.string.attention);
+                            builder.setMessage(R.string.error_transaction);
+                            builder.setPositiveButton(R.string.ok, null);
+                            resultConfirm = 0;
+                            builder.show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Error: Failed to create a transaction");
+                        AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+                        builder.setTitle(R.string.attention);
+                        builder.setMessage(R.string.error_transaction);
+                        builder.setPositiveButton(R.string.ok, null);
+                        resultConfirm = 0;
+                        builder.show();
+                    }
+                }
+        );
+        rq.add(request);
 
-        AsyncHttpClient androidClient = new AsyncHttpClient();
-
-        androidClient.post(CHECKOUT, params, new TextHttpResponseHandler() {
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d(TAG, "Error: Failed to create a transaction");
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
-                builder.setTitle(R.string.attention);
-                builder.setMessage(R.string.error_transaction);
-                builder.setPositiveButton(R.string.ok, null);
-                resultConfirm = 0;
-                builder.show();
-            }
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-
-                Log.d(TAG, "Output " + responseString);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
-                builder.setTitle(R.string.attention);
-                builder.setMessage(R.string.confirmed_pending_chef);
-                builder.setPositiveButton(R.string.ok, null);
-                resultConfirm = 1;
-                builder.show();
-
-
-            }
-        });
     }
 }

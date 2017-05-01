@@ -57,6 +57,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         setupToolbar(((Toolbar)findViewById(R.id.toolbar)));
+        setupNavigationDrawer(this);
 
         adapter = new MenuAdapter(dailyMealList, this);
 
