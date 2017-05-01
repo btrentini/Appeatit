@@ -1,4 +1,3 @@
-
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 
@@ -30,6 +29,13 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //ThirdParties
+    compile files('libs/braintree-java-2.71.0.jar')
+    compile('com.mikepenz:materialdrawer:5.9.0@aar') {
+        transitive = true
+    }
+
+
+    compile files('libs/picasso-2.5.2.jar')
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
@@ -40,16 +46,10 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
-    compile files('libs/braintree-java-2.71.0.jar')
     compile 'com.braintreepayments.api:braintree:2.+'
     compile 'com.braintreepayments.api:drop-in:3.+'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.loopj.android:android-async-http:1.4.9'
-    compile('com.mikepenz:materialdrawer:5.9.0@aar') {
-        transitive = true
-    }
-
-
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
-    compile files('libs/picasso-2.5.2.jar')
 }
