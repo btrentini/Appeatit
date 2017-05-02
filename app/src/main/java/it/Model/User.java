@@ -19,8 +19,22 @@ public class User implements Parcelable {
     @PrimaryKey
     private int id;
 
-    private String name, email, login,password;
+    private String name;
+    private String email;
+    private String login;
+    private String password;
+    private String stringID;
     private List<Address> addressList;
+
+    public String getStringID() {
+        return stringID;
+    }
+
+    public void setStringID(String stringID) {
+        this.stringID = stringID;
+    }
+
+
 
     //TODO: Create Factory for Type
     private String tipo;
@@ -35,6 +49,7 @@ public class User implements Parcelable {
         login = in.readString();
         password = in.readString();
         tipo = in.readString();
+        stringID = in.readString();
     }
 
     @Override
@@ -45,6 +60,7 @@ public class User implements Parcelable {
         dest.writeString(login);
         dest.writeString(password);
         dest.writeString(tipo);
+        dest.writeString(stringID);
     }
 
     @Override

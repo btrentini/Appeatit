@@ -22,6 +22,9 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
+import it.Model.User;
+import it.Utils.Utils;
+
 public class LoginActivity extends AppCompatActivity {
 
 
@@ -74,11 +77,12 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onCompleted(JSONObject object, GraphResponse response) {
                                     try {
                                         Log.v("LoginActivity", response.toString());
-
                                         // Application code
-                                        String email = object.getString("email");
-                                        String birthday = object.getString("birthday"); // 01/31/1980 format
-
+                                        User user = new User();
+                                        user.setName(object.getString("name"));
+                                        user.setEmail(object.getString("email"));
+                                        user.setStringID(object.getString("id"));
+                                        Utils.getInstance().setLoginUser(getApplicationContext(),true,user);
                                     }catch (JSONException e){
                                         Log.d("DEBUG",e.getMessage());
                                     }

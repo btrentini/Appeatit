@@ -178,6 +178,7 @@ public class DetailActivity extends BaseActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d("DEBUG",response.toString());
                         try {
                             if (response.getBoolean("status")) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
