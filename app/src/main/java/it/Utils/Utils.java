@@ -26,6 +26,7 @@ public class Utils {
     private Utils() {
     }
 
+    /*
     private RealmConfiguration config = new RealmConfiguration.Builder()
             .deleteRealmIfMigrationNeeded()
             .build();
@@ -35,7 +36,7 @@ public class Utils {
     public Realm getRealmInstance() {
         return realmInstance;
     }
-
+*/
 
     public void showProgressBar(Context context) {
         mProgressDialog = new ProgressDialog(context);

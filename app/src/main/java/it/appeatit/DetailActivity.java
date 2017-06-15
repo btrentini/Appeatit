@@ -69,6 +69,9 @@ public class DetailActivity extends BaseActivity {
         rq = Volley.newRequestQueue(getApplicationContext());
         params = getIntent();
         dailyMeal = params.getParcelableExtra("daily");
+
+
+
         /**
          * Content Card
          * */
@@ -116,6 +119,7 @@ public class DetailActivity extends BaseActivity {
 
 
     private void processBraintree(){
+        Utils.getInstance().showProgressBar(DetailActivity.this);
         CustomObjectRequest request = new CustomObjectRequest(
                 Request.Method.GET,
                 TOKEN_PATH
@@ -169,7 +173,7 @@ public class DetailActivity extends BaseActivity {
 
         HashMap<String,String> paramsRequest = new HashMap<>();
         paramsRequest.put("payment_method_nonce", paymentNonce);
-        paramsRequest.put("idGuest","1");
+        paramsRequest.put("idGuest","3");
         paramsRequest.put("idDailyMeal",String.valueOf(dailyMeal.getId()));
         CustomObjectRequest request = new CustomObjectRequest(
                 Request.Method.POST,
@@ -178,8 +182,9 @@ public class DetailActivity extends BaseActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("DEBUG",response.toString());
+                        Utils.getInstance().hideProgressBar();
                         try {
+
                             if (response.getBoolean("status")) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
                                 builder.setTitle(R.string.attention);
@@ -209,10 +214,10 @@ public class DetailActivity extends BaseActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "Error: Failed to create a transaction");
+                        Utils.getInstance().hideProgressBar();
                         AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
                         builder.setTitle(R.string.attention);
-                        builder.setMessage(R.string.error_transaction);
+                        builder.setMessage(R.string.error);
                         builder.setPositiveButton(R.string.ok, null);
                         resultConfirm = 0;
                         builder.show();

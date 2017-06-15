@@ -60,16 +60,17 @@ public class BaseActivity extends AppCompatActivity {
 
         String name;
         int drawable = 0;
-
+/*
         if(Utils.getInstance().getLoginUser(getApplicationContext())){
             User user = Utils.getInstance().getLoginUserInfo(getApplicationContext());
             name = user.getName();
             String url = "https://graph.facebook.com/"+user.getStringID()+"/picture?type=large";
             Picasso.with(getApplicationContext()).load(url);
         }else {
+        */
             name = "Appeatit";
             drawable = R.mipmap.ic_launcher;
-        }
+        //}
 
 
         AccountHeader headerResult = new AccountHeaderBuilder()

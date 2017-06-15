@@ -26,5 +26,6 @@
     <string name="login">Login</string>
     <string name="not_account">No account yet? Create one</string>
     <string name="login_soon">Login Native not working yet</string>
+    <string name="error">Error, try again later</string>
 
 </resources>
